@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <center>
+    <div class="container w-50 p-5 mt-5 bg-danger border">
+        <div class="row p-5">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <input id="cname" type="text" placeholder="enter country name" class="form-control">
+                <button class="btn btn-info mt-3" type="button" onclick="search()">SEARCH</button>
+            </div>
+           </div>
+       
+        <div class="col-4" id="result"></div>
+         
+    </div>
+</body>
+</center>
+<script>
+    function search()
+    {
+        country=cname.value
+        fetch(`https://restcountries.com/v2/name/${country}?fullText=true`).then(result=>result.json())
+        .then(data=>dispalydata(data))
+
+        function dispalydata(countryDetails)
+        { 
+        
+           cname=countryDetails[0].name
+           capital=countryDetails[0].capital
+           population=countryDetails[0].population
+           flag=countryDetails[0].flag
+           currency=countryDetails[0].currencies[0].code
+           symbol=countryDetails[0].currencies[0].code
+           lang=countryDetails[0].languages[0].name
+           htmldata=`<div class="card" style="width: 18rem;">
+  <img src="${flag}" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">${cname}</h5>
+    
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">${capital}</li>
+    <li class="list-group-item">${population}</li>
+    <li class="list-group-item">${currency},${symbol}</li>
+    <li class="list-group-item">${lang}</li>
+  </ul>
+
+</div>`
+          
+result.innerHTML=htmldata
+        }
+        
+
+    }
+
+</script>
+</html>
